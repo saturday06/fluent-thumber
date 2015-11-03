@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.2.2)
+project(fluent-thumber)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+aux_source_directory(src sources)
+link_libraries(png jpeg gif webp)
+set(CMAKE_BUILD_TYPE Debug)
+
+if(UNIX)
+  include_directories(/usr/include/libpng)
+  link_libraries(z m dl)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra  -Winit-self -Wno-unused-parameter -Wfloat-equal")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG} -O0")
+  set(CMAKE_EXE_LINKER_FLAGS "-static")
+  set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+endif()
+
+add_executable(fluent-thumber ${sources})
+set_property(TARGET fluent-thumber PROPERTY CXX_STANDARD 11)
